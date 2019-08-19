@@ -2,11 +2,12 @@
 
 Packages allow us organize and group modules (or python files).
 
-.
-+-- package
-    +-- __init__.py
-    +-- module.py
-    +-- module.py
+```bash
+├── package
+│   ├── __init__.py
+│   ├── module.py
+│   ├── module.py
+```
 
 ### __init__.py
 
