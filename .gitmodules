@@ -1,3 +1,0 @@
-[submodule "grading"]
-	path = grading
-	url = git@github.com:KenzieAcademy/backend-numseq-package-assessment-testsuite.git
