@@ -3,10 +3,11 @@
 Packages allow us organize and group modules (or python files).
 
 ```bash
-├── package
+├── numseq
 │   ├── __init__.py
-│   ├── module.py
-│   ├── module.py
+│   ├── fib.py
+│   ├── geo.py
+│   ├── prime.py
 ```
 
 ### `__init__.py`
