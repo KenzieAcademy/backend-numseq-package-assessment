@@ -1,6 +1,7 @@
 ## Overview - Creating Packages
 
-Packages allow us organize and group modules (or python files).
+Packages allow us organize and group modules (or python files). Python requires a specific structure for package definitions.
+The directory name is the name of the package used in an import statement (`import package_name`). The submodules can be access as attributes of the package as in `package_name.submodule_name`.
 
 ```bash
 ├── numseq
@@ -10,14 +11,14 @@ Packages allow us organize and group modules (or python files).
 │   ├── prime.py
 ```
 
-### `__init__.py`
+### \_\_init\_\_.py
 
-> The `__init__.py` files are required to make Python treat directories
+> The \_\_init\_\_.py files are required to make Python treat directories
 > containing the file as packages. This prevents directories with a common
 > name, such as string, unintentionally hiding valid modules that occur later
-> on the module search path. In the simplest case, `__init__.py` can just be an
+> on the module search path. In the simplest case, \_\_init\_\_.py can just be an
 > empty file, but it can also execute initialization code for the package or
-> set the `__all__` variable, described later.
+> set the \_\_all\_\_ variable, described later.
 >
 > -- <cite>python docs</cite>
 
