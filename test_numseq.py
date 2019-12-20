@@ -115,37 +115,46 @@ class TestNumseq(unittest.TestCase):
 
 
 class TestCodeQuality(unittest.TestCase):
+    def setUp(self):
+        self.prime = numseq_importer('prime')
+        self.assertIsInstance(self.prime, types.ModuleType, self.prime)
+        self.geo = numseq_importer('geo')
+        self.assertIsInstance(self.geo, types.ModuleType, self.geo)
+        self.fib = numseq_importer('fib')
+        self.assertIsInstance(self.fib, types.ModuleType, self.fib)
 
-    def test_prime_performance(self):
+    def test_prime_time(self):
         """Test if prime number generator is inefficient"""
         # This will generate 78498 prime numbers in about 1.5 seconds
-        t = timeit.Timer(
-            stmt='prime.primes(1000000)',
-            setup='from test_numseq import numseq_importer; prime=numseq_importer("prime");'
+        prime_time = timeit.Timer(
+            lambda: self.prime.primes(1000000)
+            ).repeat(number=1, repeat=1)[0]
+        hint = (
+            'The primes(n) function took {} seconds to run,\n'
+            'which exceeds the allowed O(n) threshold of 1.5 seconds'.format(prime_time)
             )
-        prime_time = t.repeat(repeat=1, number=1)[0]
-        self.assertLessEqual(prime_time, 1.5)
+        self.assertLessEqual(prime_time, 1.5, hint)
+
+    # TODO
+    # test_fib_time
+    # test_triangle_time
 
     def test_doc_strings(self):
         """Test all functions should have doc strings"""
         def check_docstring_length(func):
+            self.assertIsNotNone(
+                func.__doc__,
+                'function "{}" is missing a docstring'.format(func.__name__)
+                )
             # arbitrary length test of at least 10 chars
-            self.assertIsNotNone(func.__doc__, 'function "{}" is missing a docstring'.format(func.__name__))
             self.assertGreaterEqual(len(func.__doc__), 10)
-        
-        prime = numseq_importer('prime')
-        self.assertIsInstance(prime, types.ModuleType, prime)
-        geo = numseq_importer('geo')
-        self.assertIsInstance(geo, types.ModuleType, geo)
-        fib = numseq_importer('fib')
-        self.assertIsInstance(fib, types.ModuleType, fib)
 
-        check_docstring_length(prime.primes)
-        check_docstring_length(prime.is_prime)
-        check_docstring_length(fib.fib)
-        check_docstring_length(geo.square)
-        check_docstring_length(geo.cube)
-        check_docstring_length(geo.triangle)
+        check_docstring_length(self.prime.primes)
+        check_docstring_length(self.prime.is_prime)
+        check_docstring_length(self.fib.fib)
+        check_docstring_length(self.geo.square)
+        check_docstring_length(self.geo.cube)
+        check_docstring_length(self.geo.triangle)
 
 
 if __name__ == '__main__':
