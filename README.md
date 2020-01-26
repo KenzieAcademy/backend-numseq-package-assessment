@@ -1,3 +1,5 @@
+<img src="https://www.leafcutterdesigns.com/wp-content/uploads/2016/11/tiny-packages-unopened.jpg" height="120px" />
+
 ## Overview - Creating Packages
 In this assignment you will use TDD methodolgy to create several modules for computing various mathematical sequences.  The modules will then be grouped into a hierarchical package structure, with a top-level package name of `numseq`.  You will write tests first, then write code to pass the tests.
 
@@ -33,13 +35,13 @@ Within the numseq package, create a module named `fib.py`. Within the fib module
 ### `geo`
 Within the numseq package, create a module named `geo.py`. Within this geo module, define 3 functions:
  - `square(n)` : Returns the nth term of the numbers that can be arranged into square geometric shapes `[1, 4, 9, 16, 25 ... ]`
- <br><img height="120px" src="https://i1.wp.com/www.stnicholasstlaurence.dorset.sch.uk/wp-content/uploads/2013/11/Square-Numbers.png" />
+ <br><img height="120px" src="https://i1.wp.com/www.stnicholasstlaurence.dorset.sch.uk/wp-content/uploads/2013/11/Square-Numbers.png" /><br>
 
  - `triangle(n)` : Returns the nth term of the numbers that can be arranged in triangular geometric shapes `[1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ... ]` 
- <br><img height="120px" src="https://www.101computing.net/wp/wp-content/uploads/trinagular-number-sequence.png" />
+ <br><img height="120px" src="https://www.101computing.net/wp/wp-content/uploads/trinagular-number-sequence.png" /><br>
 
  - `cube(n)` : Returns the nth term of the numbers that can be arranged as symmetric cube shapes `[1, 8, 27, 64 ...]`
- <br><img height="180px" src="https://static.memrise.com/img/400sqf/from/uploads/course_photos/4974064000131215125138.gif" />
+ <br><img height="180px" src="https://static.memrise.com/img/400sqf/from/uploads/course_photos/4974064000131215125138.gif" /><br>
 
 ### `prime`
 Finally, create a module named `prime.py` within the numseq package. Define the following functions:
