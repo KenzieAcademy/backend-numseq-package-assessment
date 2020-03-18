@@ -58,7 +58,8 @@ class TestNumseq(unittest.TestCase):
         self.assertIsInstance(fib, types.ModuleType, fib)
         # just test first 30 terms
         for n, f in enumerate(fibs):
-            self.assertEqual(fib.fib(n), fibs[n], 'The Fibonacci terms are incorrect')
+            self.assertEqual(fib.fib(n), fibs[n],
+                             'The Fibonacci terms are incorrect')
 
     # def test_fib_performance(self):
     #     """Test speed performance of fibonacci algorithm"""
@@ -70,7 +71,8 @@ class TestNumseq(unittest.TestCase):
         geo = numseq_importer('geo')
         self.assertIsInstance(geo, types.ModuleType, geo)
         for n in range(-1000, 1000):
-            self.assertEqual(geo.square(n), n*n, 'The square terms are incorrect')
+            self.assertEqual(geo.square(n), n*n,
+                             'The square terms are incorrect')
 
     def test_cube(self):
         """test importability and correctness of cube terms"""
@@ -113,7 +115,6 @@ class TestNumseq(unittest.TestCase):
         expected = [p for p in primes if p < 1000]
         self.assertListEqual(actual, expected)
 
-
 class TestCodeQuality(unittest.TestCase):
     def setUp(self):
         self.prime = numseq_importer('prime')
@@ -131,7 +132,8 @@ class TestCodeQuality(unittest.TestCase):
             ).repeat(number=1, repeat=1)[0]
         hint = (
             'The primes(n) function took {} seconds to run,\n'
-            'which exceeds the allowed O(n) threshold of 1.5 seconds'.format(prime_time)
+            'which exceeds the allowed O(n) threshold of 1.5 seconds'
+            .format(prime_time)
             )
         self.assertLessEqual(prime_time, 1.5, hint)
 
