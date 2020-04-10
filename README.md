@@ -49,7 +49,8 @@ Finally, create a module named `prime.py` within the numseq package. Define the 
  - `is_prime(m)` : Returns a boolean indicating whether `m` is a prime number
 
 ## Testing
- - Use the VSCode built-in test discovery feature to run and debug individual tests
+ - NOTE: The tests are provided in this assignment.  You do NOT have to modify any of the tests or move test files or folders, even if they have some "TODOs" inside .. those comments are for our curriculum devs!
+ - Use the VSCode built-in test discovery feature to run and debug individual tests.  Please read [this article](https://code.visualstudio.com/docs/python/testing) to enable this feature in your VSCODE.
  - discover and run all tests
 
  >`$ python -m unittest discover`
