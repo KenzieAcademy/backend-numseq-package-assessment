@@ -1,13 +1,17 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Unit Test cases for Numseq Package"""
 
+import sys
 import unittest
 import timeit
 import importlib
+from importlib.util import find_spec
 import types
+import inspect
 
-numseq_root = 'numseq'  # change this to 'soln.numseq' to debug solution
 
+# globals
+PKG_NAME = 'numseq'  # devs: change this to soln.numseq to debug solution
 primes = (
     2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47,
     53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107,
@@ -39,89 +43,85 @@ fibs = (
 )
 
 
-def numseq_importer(module_name):
-    """Helper function to perform import of a numseq module"""
-    to_import = numseq_root + '.' + module_name
-    try:
-        result = importlib.import_module(to_import)
-    except ImportError:
-        result = 'Unable to import module: ' + to_import
-    # could be a module, could be a string
-    return result
+def import_helper(test_class):
+    """import the numseq package and all submodules"""
+    # check for python3
+    assert sys.version_info[0] >= 3, "Python version must be 3+"
+    has_init = find_spec(f'{PKG_NAME}.__init__') is not None
+    assert has_init, 'numseq pkg is missing __init__.py'
+
+    test_class.funcs = []
+    for m in ('geo', 'fib', 'prime'):
+        mod_name = f'{PKG_NAME}.{m}'
+        module = importlib.import_module(mod_name)
+        setattr(test_class, m, module)
+        funcs = inspect.getmembers(module, inspect.isfunction)
+        test_class.funcs.extend(funcs)
 
 
 class TestNumseq(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        """Import numseq pkg as class attributes"""
+        import_helper(cls)
+
     def test_fib(self):
-        """Test importability and correctness of fibonacci sequence"""
-        fib = numseq_importer('fib')
-        self.assertIsInstance(fib, types.ModuleType, fib)
+        """Checking correctness of fibonacci sequence"""
+        self.assertIsInstance(self.fib.fib, types.FunctionType)
         # just test first 30 terms
         for n, f in enumerate(fibs):
-            self.assertEqual(fib.fib(n), fibs[n], 'The Fibonacci terms are incorrect')
-
-    # def test_fib_performance(self):
-    #     """Test speed performance of fibonacci algorithm"""
-    #     # A recursive solution will not perform well here.
-    #     pass
+            self.assertEqual(self.fib.fib(n), fibs[n], 'The Fibonacci terms are incorrect')
 
     def test_square(self):
-        """Test importability and correctness of square terms"""
-        geo = numseq_importer('geo')
-        self.assertIsInstance(geo, types.ModuleType, geo)
+        """Checking correctness of square terms"""
+        self.assertIsInstance(self.geo.square, types.FunctionType)
         for n in range(-1000, 1000):
-            self.assertEqual(geo.square(n), n*n, 'The square terms are incorrect')
+            self.assertEqual(self.geo.square(n), n*n, 'The square terms are incorrect')
 
     def test_cube(self):
-        """test importability and correctness of cube terms"""
-        geo = numseq_importer('geo')
-        self.assertIsInstance(geo, types.ModuleType, geo)
+        """Checking correctness of cube terms"""
+        self.assertIsInstance(self.geo.cube, types.FunctionType)
         for n in range(-1000, 1000):
-            self.assertEqual(geo.cube(n), n**3, 'The cube terms are incorrect')
+            self.assertEqual(self.geo.cube(n), n**3, 'The cube terms are incorrect')
 
     def test_triangle(self):
-        """Test importability and correctness of triangular number terms"""
-        geo = numseq_importer('geo')
-        self.assertIsInstance(geo, types.ModuleType, geo)
-
+        """Checking correctness of triangular number terms"""
+        self.assertIsInstance(self.geo.triangle, types.FunctionType)
         for n, t in enumerate(triangles):
-            self.assertEqual(geo.triangle(n), t)
+            self.assertEqual(self.geo.triangle(n), t)
 
     def test_is_prime(self):
-        """Test importability and correctness of prime functions"""
-        prime = numseq_importer('prime')
-        self.assertIsInstance(prime, types.ModuleType, prime)
-
+        """Checking correctness of prime functions"""
+        self.assertIsInstance(self.prime.is_prime, types.FunctionType)
         for n in range(max(primes)):
             if n in primes:
-                self.assertTrue(prime.is_prime(n), str(n) + ' is a prime number')
+                self.assertTrue(self.prime.is_prime(n), str(n) + ' is a prime number')
             else:
-                self.assertFalse(prime.is_prime(n), str(n) + ' is NOT a prime number')
+                self.assertFalse(self.prime.is_prime(n), str(n) + ' is NOT a prime number')
 
-        self.assertTrue(prime.is_prime(999983), '999983 is prime')
-        self.assertFalse(prime.is_prime(999981), '999981 is not prime')
-        self.assertTrue(prime.is_prime(1299827), '1299827 is prime')
+        self.assertTrue(self.prime.is_prime(999983), '999983 is prime')
+        self.assertFalse(self.prime.is_prime(999981), '999981 is not prime')
+        self.assertTrue(self.prime.is_prime(1299827), '1299827 is prime')
 
     def test_primes(self):
-        """Test whether function generates primes up to given value"""
-        prime = numseq_importer('prime')
-        self.assertIsInstance(prime, types.ModuleType, prime)
+        """Checking generating primes up to given value"""
+        self.assertIsInstance(self.prime.primes, types.FunctionType)
         for n in range(-1, 2):
-            self.assertListEqual(prime.primes(n), [], "list should be empty")
+            self.assertListEqual(self.prime.primes(n), [], "list should be empty")
         # primes under 1000
-        actual = prime.primes(1000)
+        actual = self.prime.primes(1000)
         expected = [p for p in primes if p < 1000]
-        self.assertListEqual(actual, expected)
+        self.assertListEqual(actual, expected, "Your prime list does not match expected values")
 
 
 class TestCodeQuality(unittest.TestCase):
-    def setUp(self):
-        self.prime = numseq_importer('prime')
-        self.assertIsInstance(self.prime, types.ModuleType, self.prime)
-        self.geo = numseq_importer('geo')
-        self.assertIsInstance(self.geo, types.ModuleType, self.geo)
-        self.fib = numseq_importer('fib')
-        self.assertIsInstance(self.fib, types.ModuleType, self.fib)
+    """Checks performance and quality of functions"""
+
+    @classmethod
+    def setUpClass(cls):
+        """Import numseq pkg as class attributes"""
+        import_helper(cls)
 
     def test_prime_time(self):
         """Test if prime number generator is inefficient"""
@@ -130,31 +130,21 @@ class TestCodeQuality(unittest.TestCase):
             lambda: self.prime.primes(1000000)
             ).repeat(number=1, repeat=1)[0]
         hint = (
-            'The primes(n) function took {} seconds to run,\n'
-            'which exceeds the allowed O(n) threshold of 1.5 seconds'.format(prime_time)
+            f'The primes(n) function took {prime_time} seconds to run,\n'
+            'which exceeds the allowed O(n) threshold of 1.5 seconds'
             )
         self.assertLessEqual(prime_time, 1.5, hint)
 
-    # TODO
-    # test_fib_time
-    # test_triangle_time
-
     def test_doc_strings(self):
-        """Test all functions should have doc strings"""
-        def check_docstring_length(func):
+        """Checking for docstrings on all functions"""
+        self.assertTrue(self.funcs, "Module functions are missing")
+        for func_name, func in self.funcs:
             self.assertIsNotNone(
                 func.__doc__,
-                'function "{}" is missing a docstring'.format(func.__name__)
+                f'function "{func_name}" is missing a docstring'
                 )
             # arbitrary length test of at least 10 chars
-            self.assertGreaterEqual(len(func.__doc__), 10)
-
-        check_docstring_length(self.prime.primes)
-        check_docstring_length(self.prime.is_prime)
-        check_docstring_length(self.fib.fib)
-        check_docstring_length(self.geo.square)
-        check_docstring_length(self.geo.cube)
-        check_docstring_length(self.geo.triangle)
+            self.assertGreaterEqual(len(func.__doc__), 10, "How about a bit more docstring?")
 
 
 if __name__ == '__main__':
