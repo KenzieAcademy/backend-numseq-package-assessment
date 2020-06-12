@@ -71,19 +71,22 @@ class TestNumseq(unittest.TestCase):
         self.assertIsInstance(self.fib.fib, types.FunctionType)
         # just test first 30 terms
         for n, f in enumerate(fibs):
-            self.assertEqual(self.fib.fib(n), fibs[n], 'The Fibonacci terms are incorrect')
+            self.assertEqual(self.fib.fib(n), fibs[n],
+                             'The Fibonacci terms are incorrect')
 
     def test_square(self):
         """Checking correctness of square terms"""
         self.assertIsInstance(self.geo.square, types.FunctionType)
         for n in range(-1000, 1000):
-            self.assertEqual(self.geo.square(n), n*n, 'The square terms are incorrect')
+            self.assertEqual(self.geo.square(n), n*n,
+                             'The square terms are incorrect')
 
     def test_cube(self):
         """Checking correctness of cube terms"""
         self.assertIsInstance(self.geo.cube, types.FunctionType)
         for n in range(-1000, 1000):
-            self.assertEqual(self.geo.cube(n), n**3, 'The cube terms are incorrect')
+            self.assertEqual(self.geo.cube(n), n**3,
+                             'The cube terms are incorrect')
 
     def test_triangle(self):
         """Checking correctness of triangular number terms"""
@@ -96,9 +99,11 @@ class TestNumseq(unittest.TestCase):
         self.assertIsInstance(self.prime.is_prime, types.FunctionType)
         for n in range(max(primes)):
             if n in primes:
-                self.assertTrue(self.prime.is_prime(n), str(n) + ' is a prime number')
+                self.assertTrue(self.prime.is_prime(n),
+                                str(n) + ' is a prime number')
             else:
-                self.assertFalse(self.prime.is_prime(n), str(n) + ' is NOT a prime number')
+                self.assertFalse(self.prime.is_prime(n),
+                                 str(n) + ' is NOT a prime number')
 
         self.assertTrue(self.prime.is_prime(999983), '999983 is prime')
         self.assertFalse(self.prime.is_prime(999981), '999981 is not prime')
@@ -108,11 +113,13 @@ class TestNumseq(unittest.TestCase):
         """Checking generating primes up to given value"""
         self.assertIsInstance(self.prime.primes, types.FunctionType)
         for n in range(-1, 2):
-            self.assertListEqual(self.prime.primes(n), [], "list should be empty")
+            self.assertListEqual(self.prime.primes(n), [],
+                                 "list should be empty")
         # primes under 1000
         actual = self.prime.primes(1000)
         expected = [p for p in primes if p < 1000]
-        self.assertListEqual(actual, expected, "Your prime list does not match expected values")
+        self.assertListEqual(actual, expected,
+                             "Your prime list does not match expected values")
 
 
 class TestCodeQuality(unittest.TestCase):
@@ -144,7 +151,8 @@ class TestCodeQuality(unittest.TestCase):
                 f'function "{func_name}" is missing a docstring'
                 )
             # arbitrary length test of at least 10 chars
-            self.assertGreaterEqual(len(func.__doc__), 10, "How about a bit more docstring?")
+            self.assertGreaterEqual(len(func.__doc__), 10,
+                                    "How about a bit more docstring?")
 
 
 if __name__ == '__main__':
